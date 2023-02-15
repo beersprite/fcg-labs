@@ -46,8 +46,7 @@ void main()
     vec4 v = normalize(camera_position - p);
 
     // Vetor que define o sentido da reflex�o especular ideal.
-
-    vec4 r = vec4(1.0,0.0,0.0,0.0); // PREENCHA AQUI o vetor de reflex�o especular ideal
+    vec4 r = -l + 2*n * (dot(n,l)); // PREENCHA AQUI o vetor de reflex�o especular ideal
 
     // Par�metros que definem as propriedades espectrais da superf�cie
     vec3 Kd; // Reflet�ncia difusa
