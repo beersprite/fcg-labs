@@ -47,7 +47,7 @@ void main()
 
     // Vetor que define o sentido da reflex�o especular ideal.
     //vec4 r = vec4(1.0,0.0,0.0,0.0); // PREENCHA AQUI o vetor de reflex�o especular ideal
-    vec4 r = vec4(-l.x + 2*n.x * (dot(n,l)),-l.y + 2*n.y * (dot(n,l)),-l.z + 2*n.z * (dot(n,l)), -l.w + 2*n.w * (dot(n,l))); // PREENCHA AQUI o vetor de reflex�o especular ideal
+    vec4 r = -l + 2*n * (dot(n,l)); // PREENCHA AQUI o vetor de reflex�o especular ideal
 
     // Par�metros que definem as propriedades espectrais da superf�cie
     vec3 Kd; // Reflet�ncia difusa
@@ -96,16 +96,14 @@ void main()
     // Espectro da luz ambiente
     vec3 Ia = vec3(0.2,0.2,0.2); // PREENCHA AQUI o espectro da luz ambiente
 
-    float lambert = max(0, dot(n, l));
     // Termo difuso utilizando a lei dos cossenos de Lambert
-    vec3 lambert_diffuse_term = vec3(Kd.x * I.x * lambert, Kd.y * I.y * lambert, Kd.z * I.z * lambert); // PREENCHA AQUI o termo difuso de Lambert
+    vec3 lambert_diffuse_term = Kd * I * max(0, dot(n, l)); // PREENCHA AQUI o termo difuso de Lambert
 
     // Termo ambiente
-    vec3 ambient_term = vec3(Ka.x * Ia.x, Ka.y * Ia.y, Ka.z * Ia.z); // PREENCHA AQUI o termo ambiente
+    vec3 ambient_term = Ka * Ia; // PREENCHA AQUI o termo ambiente
 
-    float specular_term = pow(max(0, dot(r, v)), q);
     // Termo especular utilizando o modelo de ilumina��o de Phong
-    vec3 phong_specular_term  = vec3(Ks.x * I.x * specular_term, Ks.y * I.y * specular_term, Ks.z * I.z * specular_term); // PREENCH AQUI o termo especular de Phong
+    vec3 phong_specular_term  = Ks * I * pow(max(0, dot(r, v)), q); // PREENCHA AQUI o termo especular de Phong
 
     // NOTE: Se voc� quiser fazer o rendering de objetos transparentes, �
     // necess�rio:
