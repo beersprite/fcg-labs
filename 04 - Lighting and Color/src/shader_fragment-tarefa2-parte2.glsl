@@ -2,41 +2,41 @@
 
 // Atributos de fragmentos recebidos como entrada ("in") pelo Fragment Shader.
 // Neste exemplo, este atributo foi gerado pelo rasterizador como a
-// interpola��o da posi��o global e a normal de cada v�rtice, definidas em
+// interpolação da posição global e a normal de cada vértice, definidas em
 // "shader_vertex.glsl" e "main.cpp".
 in vec4 position_world;
 in vec4 normal;
 
-// Matrizes computadas no c�digo C++ e enviadas para a GPU
+// Matrizes computadas no código C++ e enviadas para a GPU
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-// Identificador que define qual objeto est� sendo desenhado no momento
+// Identificador que define qual objeto está sendo desenhado no momento
 #define SPHERE 0
 #define BUNNY  1
 #define PLANE  2
 uniform int object_id;
 
-// O valor de sa�da ("out") de um Fragment Shader � a cor final do fragmento.
+// O valor de saída ("out") de um Fragment Shader é a cor final do fragmento.
 out vec4 color;
 
 void main()
 {
-    // Obtemos a posi��o da c�mera utilizando a inversa da matriz que define o
-    // sistema de coordenadas da c�mera.
+    // Obtemos a posição da câmera utilizando a inversa da matriz que define o
+    // sistema de coordenadas da câmera.
     vec4 origin = vec4(0.0, 0.0, 0.0, 1.0);
     vec4 camera_position = inverse(view) * origin;
 
-    // O fragmento atual � coberto por um ponto que percente � superf�cie de um
-    // dos objetos virtuais da cena. Este ponto, p, possui uma posi��o no
-    // sistema de coordenadas global (World coordinates). Esta posi��o � obtida
-    // atrav�s da interpola��o, feita pelo rasterizador, da posi��o de cada
-    // v�rtice.
+    // O fragmento atual é coberto por um ponto que percente à superfície de um
+    // dos objetos virtuais da cena. Este ponto, p, possui uma posição no
+    // sistema de coordenadas global (World coordinates). Esta posição é obtida
+    // através da interpolação, feita pelo rasterizador, da posição de cada
+    // vértice.
     vec4 p = position_world;
 
     // Normal do fragmento atual, interpolada pelo rasterizador a partir das
-    // normais de cada v�rtice.
+    // normais de cada vértice.
     vec4 n = normalize(normal);
 
     // SPOTLIGHT
