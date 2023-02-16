@@ -101,6 +101,9 @@ void main()
     // Termo ambiente
     vec3 ambient_term = Ka * Ia; // PREENCHA AQUI o termo ambiente
 
+    // Termo especular utilizando o modelo de iluminação de Phong
+    vec3 phong_specular_term  = Ks * I * pow(max(0, dot(r, v)), q); // PREENCHA AQUI o termo especular de Phong
+
     // NOTE: Se você quiser fazer o rendering de objetos transparentes, é
     // necessário:
     // 1) Habilitar a operação de "blending" de OpenGL logo antes de realizar o
