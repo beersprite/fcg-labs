@@ -40,7 +40,7 @@ void main()
     vec4 n = normalize(normal);
 
     // SPOTLIGHT
-    // parametros posicao l, direcao v, abertura alfa
+    // Parâmetros próprios: posição l, direção v, abertura alfa
     // ângulo de abertura de 30 graus
     float spotlight_angle = 3.1415/6;
     vec4 spotlight_l = vec4(0.0, 2.0, 1.0, 0.0);
@@ -49,25 +49,24 @@ void main()
     float spotlight_cos_beta = dot(normalize(p - spotlight_l), spotlight_v);
     bool lightHits = !(spotlight_cos_beta < cos(spotlight_angle));
 
-    // Vetor que define o sentido da fonte de luz em rela��o ao ponto atual.
-    // fonte de luz pontual
+    // Vetor que define o sentido da fonte de luz em relação ao ponto atual.
+    // Fonte de luz pontual
     //vec4 l = normalize(vec4(0.0,1.0,0.0,0.0));
 
-    // fonte de luz spotlight
+    // Fonte de luz spotlight
     vec4 l = normalize(spotlight_l - p);
 
-    // Vetor que define o sentido da c�mera em rela��o ao ponto atual.
+    // Vetor que define o sentido da câmera em relação ao ponto atual.
     vec4 v = normalize(camera_position - p);
 
-    // Vetor que define o sentido da reflex�o especular ideal.
-    //vec4 r = vec4(1.0,0.0,0.0,0.0); // PREENCHA AQUI o vetor de reflex�o especular ideal
-    vec4 r = -l + 2*n * (dot(n,l)); // PREENCHA AQUI o vetor de reflex�o especular ideal
+    // Vetor que define o sentido da reflexão especular ideal.
+    vec4 r = -l + 2*n * (dot(n,l)); // PREENCHA AQUI o vetor de reflexão especular ideal
 
-    // Par�metros que definem as propriedades espectrais da superf�cie
-    vec3 Kd; // Reflet�ncia difusa
-    vec3 Ks; // Reflet�ncia especular
-    vec3 Ka; // Reflet�ncia ambiente
-    float q; // Expoente especular para o modelo de ilumina��o de Phong
+    // Parâmetros que definem as propriedades espectrais da superfície
+    vec3 Kd; // Refletância difusa
+    vec3 Ks; // Refletância especular
+    vec3 Ka; // Refletância ambiente
+    float q; // Expoente especular para o modelo de iluminação de Phong
 
     if ( object_id == SPHERE )
     {
@@ -82,10 +81,10 @@ void main()
     {
         // PREENCHA AQUI
         // Propriedades espectrais do coelho
-        Kd = vec3(0.08,0.4,0.8); // Reflet�ncia difusa/da superf�cie
-        Ks = vec3(0.8,0.8,0.8); // Reflet�ncia especular
-        Ka = vec3(0.04,0.2,0.4); // Reflet�ncia ambiente
-        q = 32.0; // Expoente especular para o modelo de ilumina��o de Phong
+        Kd = vec3(0.08,0.4,0.8); // Refletância difusa/da superfície
+        Ks = vec3(0.8,0.8,0.8); // Refletância especular
+        Ka = vec3(0.04,0.2,0.4); // Refletância ambiente
+        q = 32.0; // Expoente especular para o modelo de iluminação de Phong
     }
     else if ( object_id == PLANE )
     {
@@ -104,7 +103,7 @@ void main()
         q = 1.0;
     }
 
-    // Espectro da fonte de ilumina��o
+    // Espectro da fonte de iluminação
     vec3 I = vec3(1.0,1.0,1.0); // PREENCHA AQUI o espectro da fonte de luz
 
     // Espectro da luz ambiente
@@ -116,34 +115,33 @@ void main()
     // Termo ambiente
     vec3 ambient_term = Ka * Ia; // PREENCHA AQUI o termo ambiente
 
-    // Termo especular utilizando o modelo de ilumina��o de Phong
+    // Termo especular utilizando o modelo de iluminação de Phong
     vec3 phong_specular_term  = Ks * I * pow(max(0, dot(r, v)), q); // PREENCHA AQUI o termo especular de Phong
 
-
-    // NOTE: Se voc� quiser fazer o rendering de objetos transparentes, �
-    // necess�rio:
-    // 1) Habilitar a opera��o de "blending" de OpenGL logo antes de realizar o
-    //    desenho dos objetos transparentes, com os comandos abaixo no c�digo C++:
+    // NOTE: Se você quiser fazer o rendering de objetos transparentes, é
+    // necessário:
+    // 1) Habilitar a operação de "blending" de OpenGL logo antes de realizar o
+    //    desenho dos objetos transparentes, com os comandos abaixo no código C++:
     //      glEnable(GL_BLEND);
     //      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // 2) Realizar o desenho de todos objetos transparentes *ap�s* ter desenhado
+    // 2) Realizar o desenho de todos objetos transparentes *após* ter desenhado
     //    todos os objetos opacos; e
     // 3) Realizar o desenho de objetos transparentes ordenados de acordo com
-    //    suas dist�ncias para a c�mera (desenhando primeiro objetos
-    //    transparentes que est�o mais longe da c�mera).
+    //    suas distâncias para a câmera (desenhando primeiro objetos
+    //    transparentes que estão mais longe da câmera).
     // Alpha default = 1 = 100% opaco = 0% transparente
     color.a = 1;
 
-    // Cor final do fragmento calculada com uma combina��o dos termos difuso,
+    // Cor final do fragmento calculada com uma combinação dos termos difuso,
     // especular, e ambiente. Veja slide 129 do documento Aula_17_e_18_Modelos_de_Iluminacao.pdf.
 
     color.rgb = ambient_term;
 
-    if(lightHits){
+    if (lightHits){
         color.rgb = lambert_diffuse_term + ambient_term + phong_specular_term;
     }
 
-    // Cor final com corre��o gamma, considerando monitor sRGB.
+    // Cor final com correção gamma, considerando monitor sRGB.
     // Veja https://en.wikipedia.org/w/index.php?title=Gamma_correction&oldid=751281772#Windows.2C_Mac.2C_sRGB_and_TV.2Fvideo_standard_gammas
     color.rgb = pow(color.rgb, vec3(1.0,1.0,1.0)/2.2);
 }
