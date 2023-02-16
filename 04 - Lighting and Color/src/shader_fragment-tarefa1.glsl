@@ -48,7 +48,7 @@ void main()
     // Vetor que define o sentido da reflexão especular ideal.
     vec4 r = -l + 2*n * (dot(n,l)); // PREENCHA AQUI o vetor de reflexão especular ideal
 
-    // Par�metros que definem as propriedades espectrais da superfície
+    // Parâmetros que definem as propriedades espectrais da superfície
     vec3 Kd; // Refletância difusa
     vec3 Ks; // Refletância especular
     vec3 Ka; // Refletância ambiente
