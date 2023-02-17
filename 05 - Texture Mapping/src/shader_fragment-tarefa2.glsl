@@ -134,35 +134,36 @@ void main()
     // Equação de Iluminação
     float lambert = max(0,dot(n,l));
 
+    color.rgb = Kd0 * (lambert + 0.01);
+
     if (lambert == 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 1);
+       color.rgb += Kd1 * (lambert + 1);
     }
-    else if (lambert < 0.01 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.5);
-    }
-    else if (lambert < 0.02 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.25);
-    }
-    else if (lambert < 0.03 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.125);
-    }
-    else if (lambert < 0.04 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.0625);
-    }
-    else if (lambert < 0.05 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.02);
-    }
-    else if (lambert < 0.06 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.005);
-    }
-    else if (lambert < 0.07 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.0001);
-    }
-    else if (lambert < 0.08 && lambert > 0){
-       color.rgb = Kd0 * (lambert + 0.01) + Kd1 * (lambert + 0.00001);
-    }
-    else {
-        color.rgb = Kd0 * (lambert + 0.01);
+    else if(lambert > 0){
+        if (lambert < 0.01){
+           color.rgb +=  Kd1 * (lambert + 0.5);
+        }
+        else if (lambert < 0.02){
+           color.rgb +=  Kd1 * (lambert + 0.25);
+        }
+        else if (lambert < 0.03){
+           color.rgb +=  Kd1 * (lambert + 0.125);
+        }
+        else if (lambert < 0.04){
+           color.rgb +=  Kd1 * (lambert + 0.0625);
+        }
+        else if (lambert < 0.05){
+           color.rgb +=  Kd1 * (lambert + 0.02);
+        }
+        else if (lambert < 0.06){
+           color.rgb +=  Kd1 * (lambert + 0.005);
+        }
+        else if (lambert < 0.07){
+           color.rgb +=  Kd1 * (lambert + 0.0001);
+        }
+        else if (lambert < 0.08){
+           color.rgb +=  Kd1 * (lambert + 0.00001);
+        }
     }
 
     // NOTE: Se você quiser fazer o rendering de objetos transparentes, é
